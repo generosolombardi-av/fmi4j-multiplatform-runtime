@@ -1,0 +1,190 @@
+name: Bootstrap Community Repository
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/bootstrap-community.yml"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create initial release and roadmap issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const tag = "v0.38.0-multiplatform.1";
+
+            const releaseBody = `This is the first public release of the FMI4j Multiplatform Runtime community fork.
+
+            Highlights:
+            - Preserves the original FMI4j import API.
+            - Adds a macOS universal native runtime for FMI4j import.
+            - Supports both arm64 and x86_64 in native/fmi/darwin64/fmi4j-import.dylib.
+            - Keeps existing Windows and Linux native runtime resources.
+            - Adds documentation for native runtime builds.
+            - Adds scripts for building and packaging the macOS universal runtime.
+            - Adds roadmap and contribution notes for future multiplatform support.
+
+            Maintainer:
+            - Generoso Lombardi, creator and technical director of the SinergIA project.`;
+
+            try {
+              await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+              core.info(`Release ${tag} already exists`);
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              await github.rest.repos.createRelease({
+                owner,
+                repo,
+                tag_name: tag,
+                name: "Initial multiplatform runtime fork",
+                body: releaseBody,
+                draft: false,
+                prerelease: false
+              });
+              core.info(`Created release ${tag}`);
+            }
+
+            const labels = [
+              { name: "native-runtime", color: "0E8A16", description: "Native FMI4j runtime build or loading work" },
+              { name: "documentation", color: "0075CA", description: "Documentation improvements" },
+              { name: "ci", color: "5319E7", description: "Continuous integration and automation" },
+              { name: "publication", color: "FBCA04", description: "Artifact publication and release process" },
+              { name: "example", color: "C2E0C6", description: "Example projects and smoke tests" }
+            ];
+
+            for (const label of labels) {
+              try {
+                await github.rest.issues.getLabel({ owner, repo, name: label.name });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({ owner, repo, ...label });
+              }
+            }
+
+            const plannedIssues = [
+              {
+                title: "Add Linux ARM64 native runtime build",
+                labels: ["native-runtime"],
+                body: `The fork should support Linux ARM64 as a first-class target for JVM FMU import.
+
+                Tasks:
+                - Decide the runtime resource folder name for Linux ARM64.
+                - Build libfmi4j-import.so for aarch64.
+                - Verify the runtime loader can resolve the Linux ARM64 native library.
+                - Document build requirements.
+                - Add the artifact to the runtime JAR packaging process.
+
+                Target outcome:
+                - Java applications running on Linux ARM64 can load FMI4j without manual native runtime patching.`
+              },
+              {
+                title: "Add GitHub Actions multiplatform build matrix",
+                labels: ["ci", "native-runtime"],
+                body: `Add a CI matrix for building and verifying the native runtime on multiple operating systems.
+
+                Initial matrix:
+                - macOS latest
+                - Ubuntu latest
+                - Windows latest
+
+                Tasks:
+                - Build JVM modules.
+                - Build native runtime where possible.
+                - Upload native runtime artifacts.
+                - Verify macOS universal dylib architecture with lipo.
+                - Keep workflow output readable for contributors.
+
+                Target outcome:
+                - Runtime builds become reproducible and verifiable from GitHub Actions.`
+              },
+              {
+                title: "Prepare Maven Central publication",
+                labels: ["publication"],
+                body: `Prepare the fork for publication as a Maven artifact that can be consumed directly by Java/Kotlin projects.
+
+                Tasks:
+                - Decide groupId and artifactId.
+                - Preserve compatibility with existing FMI4j users where possible.
+                - Add POM metadata.
+                - Add source and javadoc JAR tasks.
+                - Add signing/release process.
+                - Document usage from Maven and Gradle.
+
+                Target outcome:
+                - Users can depend on the multiplatform runtime from Maven/Gradle without local repository workarounds.`
+              },
+              {
+                title: "Add minimal Spring Boot FMU loader example",
+                labels: ["example", "documentation"],
+                body: `Add a small Spring Boot example that proves the runtime JAR can load and initialize an FMI 2.0 Co-Simulation FMU.
+
+                Scope:
+                - Java 21.
+                - Spring Boot.
+                - Load FMU from classpath.
+                - Print Java runtime architecture.
+                - Print expected FMI4j native runtime path.
+                - Initialize the FMU.
+                - Execute one doStep.
+
+                Target outcome:
+                - New users have a reproducible smoke test for the runtime artifact.`
+              },
+              {
+                title: "Document Windows x86_64 runtime build",
+                labels: ["documentation", "native-runtime"],
+                body: `Document and verify the Windows x86_64 native runtime build for fmi4j-import.dll.
+
+                Tasks:
+                - Identify supported compiler/toolchain.
+                - Document JDK include paths.
+                - Build fmi4j-import.dll.
+                - Verify architecture.
+                - Confirm runtime folder remains native/fmi/win64.
+
+                Target outcome:
+                - Windows users can reproduce the native runtime build and package it into the runtime JAR.`
+              },
+              {
+                title: "Request link from original archived repository",
+                labels: ["documentation"],
+                body: `Ask the original FMI4j author whether he is comfortable adding a short note or link from the archived NTNU-IHB/FMI4j repository to this community continuation fork.
+
+                Why:
+                - It helps existing FMI4j users find the maintained multiplatform runtime work.
+                - It avoids confusion between the archived original project and this continuation effort.
+
+                Target outcome:
+                - The archived repository points interested users to the community fork.`
+              }
+            ];
+
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: "all",
+              per_page: 100
+            });
+            const existingTitles = new Set(existingIssues.map(issue => issue.title));
+
+            for (const issue of plannedIssues) {
+              if (existingTitles.has(issue.title)) {
+                core.info(`Issue already exists: ${issue.title}`);
+                continue;
+              }
+              await github.rest.issues.create({ owner, repo, ...issue });
+              core.info(`Created issue: ${issue.title}`);
+            }
+
