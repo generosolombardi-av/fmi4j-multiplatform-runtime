@@ -1,4 +1,65 @@
-# FMI4j
+# FMI4j Multiplatform Runtime
+
+This repository is a community continuation of
+[NTNU-IHB/FMI4j](https://github.com/NTNU-IHB/FMI4j), with a practical focus on
+keeping the FMI4j import runtime usable in modern JVM applications across
+multiple native platforms.
+
+The original FMI4j project has been archived by its author. This fork keeps the
+original codebase and license intact, while adding reproducible native runtime
+builds, packaging notes, and examples for current Java/Spring Boot digital twin
+projects.
+
+Fork maintainer:
+
+- **Generoso Lombardi** - creator and technical director of the SinergIA project
+
+Initial maintenance focus:
+
+- macOS ARM64
+- macOS x86_64
+- macOS universal `darwin64` runtime
+- Windows x86_64
+- Linux x86_64
+- Linux ARM64
+
+The first concrete goal is to make the `fmi-import` native JNI library available
+for the architectures above without requiring each user to patch the runtime JAR
+manually.
+
+## Current Status
+
+| Area | Status |
+| --- | --- |
+| Original FMI4j import API | Preserved |
+| Original FMI4j model description API | Preserved |
+| macOS ARM64 native runtime | Documented, script foundation added |
+| macOS x86_64 native runtime | Documented, script foundation added |
+| macOS universal runtime | Documented, script foundation added |
+| Windows x86_64 runtime | Planned |
+| Linux x86_64 runtime | Existing upstream support, to be repackaged |
+| Linux ARM64 runtime | Planned short-term |
+| Maven Central publication | Planned |
+| Example JVM/Spring Boot FMU loader | Planned |
+
+## Documentation Added By This Fork
+
+- [Native runtime build guide](docs/native-runtime-build.md)
+- [macOS universal runtime guide](docs/macos-universal-runtime.md)
+- [Roadmap](docs/roadmap.md)
+
+## Scripts Added By This Fork
+
+- `scripts/build-macos-universal.sh`
+- `scripts/package-runtime-jar.sh`
+
+The scripts are intentionally small and explicit. They are meant to make the
+native runtime packaging process inspectable before it is automated further with
+CI.
+
+## Original FMI4j README
+
+The original project description follows.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/NTNU-IHB/FMI4j/issues)
@@ -53,4 +114,3 @@ Or maybe build FMUs using Python? Check out [PythonFMU](https://github.com/NTNU-
 Or would you rather simulate FMUs using C++? Check out [FMI4cpp](https://github.com/NTNU-IHB/FMI4cpp)! <br>
 Need to distribute your FMUs? [FMU-proxy](https://github.com/NTNU-IHB/FMU-proxy) to the rescue! <br>
 Need a complete co-simulation framework with SSP support? Check out [Vico](https://github.com/NTNU-IHB/Vico) <br>
-
