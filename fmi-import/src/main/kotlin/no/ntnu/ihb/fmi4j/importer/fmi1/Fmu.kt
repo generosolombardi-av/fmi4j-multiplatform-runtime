@@ -82,10 +82,13 @@ class Fmu internal constructor(
      * Get the absolute name of the native library on the form "C://folder/name.extension"
      */
     internal fun getAbsoluteLibraryPath(modelIdentifier: String): File {
-        return File(
-            extractedFmu, BINARIES_FOLDER + File.separator + OsUtil.libraryFolderName + OsUtil.platformBitness
-                    + File.separator + modelIdentifier + "." + OsUtil.libExtension
-        )
+        val candidates = OsUtil.fmuBinaryFolderCandidates.map { folder ->
+            File(
+                extractedFmu, BINARIES_FOLDER + File.separator + folder
+                        + File.separator + modelIdentifier + "." + OsUtil.libExtension
+            )
+        }
+        return candidates.firstOrNull { it.isFile } ?: candidates.first()
     }
 
     internal fun registerLibrary(library: Fmi1Library) {

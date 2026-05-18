@@ -30,6 +30,7 @@ The runtime JAR should contain native libraries under:
 fmi-import/src/main/resources/native/fmi/
   darwin64/fmi4j-import.dylib
   linux64/libfmi4j-import.so
+  linux-aarch64/libfmi4j-import.so
   win64/fmi4j-import.dll
 ```
 
@@ -67,9 +68,14 @@ Linux:
 file libfmi4j-import.so
 ```
 
+Linux ARM64:
+
+```bash
+scripts/build-linux-aarch64.sh
+```
+
 Windows:
 
 ```powershell
 dumpbin /headers fmi4j-import.dll
 ```
-

@@ -36,6 +36,7 @@ object OsUtil {
     private const val LINUX_LIBRARY_EXTENSION = "so"
 
     val osName: String = System.getProperty("os.name")
+    val osArch: String = System.getProperty("os.arch").lowercase()
     val platformBitness: String = System.getProperty("sun.arch.data.model")
 
     val is32Bit: Boolean
@@ -53,13 +54,20 @@ object OsUtil {
     val isMac: Boolean
         get() = osName.startsWith("Mac") || osName.startsWith("Darwin")
 
+    val isArm64: Boolean
+        get() = osArch == "aarch64" || osArch == "arm64"
+
+    val isX86_64: Boolean
+        get() = osArch == "x86_64" || osArch == "amd64"
+
     val currentOS: String
         get() {
             return when {
                 isMac -> "darwin$platformBitness"
+                isLinux && isArm64 -> "linux-aarch64"
                 isLinux -> "linux$platformBitness"
                 isWindows -> "win$platformBitness"
-                else -> throw RuntimeException("Unsupported OS: $osName")
+                else -> throw RuntimeException("Unsupported OS: $osName / $osArch")
             }
         }
 
@@ -92,5 +100,14 @@ object OsUtil {
             else -> throw UnsupportedOperationException("OS '$osName' is unsupported!")
         }
 
+    val fmuBinaryFolderCandidates: List<String>
+        get() = when {
+            isMac -> listOf("darwin$platformBitness")
+            isWindows -> listOf("win$platformBitness")
+            isLinux && isArm64 -> listOf("aarch64-linux-gnu", "linux-aarch64", "linux$platformBitness")
+            isLinux && isX86_64 -> listOf("x86_64-linux-gnu", "linux$platformBitness")
+            isLinux -> listOf("linux$platformBitness")
+            else -> throw UnsupportedOperationException("OS '$osName' is unsupported!")
+        }
 
 }

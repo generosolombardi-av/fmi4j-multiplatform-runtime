@@ -52,6 +52,7 @@ schema/
 
 /**/out/
 /**/build/
+/**/target/
 
 /**/src/test/resources/fmus
 

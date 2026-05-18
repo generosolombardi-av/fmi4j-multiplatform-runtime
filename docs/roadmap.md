@@ -26,18 +26,18 @@ Maintainer:
 | macOS | universal arm64+x86_64 | `native/fmi/darwin64` | High |
 | Windows | x86_64 | `native/fmi/win64` | High |
 | Linux | x86_64 | `native/fmi/linux64` | High |
-| Linux | arm64 | `native/fmi/linux-aarch64` or agreed folder | High |
+| Linux | arm64 | `native/fmi/linux-aarch64` | High |
 
-The original runtime loader currently expects established folder names such as
-`darwin64`, `win64`, and `linux64`. Linux ARM64 needs a clear naming decision
-before publication.
+The runtime loader preserves established folder names such as `darwin64`,
+`win64`, and `linux64`. Linux ARM64 uses `linux-aarch64`.
 
 ## First Milestone
 
 - macOS universal `fmi4j-import.dylib`.
 - Repackaged runtime JAR containing macOS, Windows, and Linux native libraries.
 - Documentation for verifying architecture slices with `lipo` and `file`.
-- Minimal JVM example that loads an FMI 2.0 Co-Simulation FMU.
+- Minimal JVM/Spring Boot example that loads an FMI 2.0 Co-Simulation FMU.
+- Linux ARM64 runtime folder mapping and FMU binary folder fallback support.
 
 ## Second Milestone
 

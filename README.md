@@ -38,14 +38,15 @@ manually.
 | macOS universal runtime | Documented, script foundation added |
 | Windows x86_64 runtime | Planned |
 | Linux x86_64 runtime | Existing upstream support, to be repackaged |
-| Linux ARM64 runtime | Planned short-term |
+| Linux ARM64 runtime | Loader support and build guide added; binary build pending |
 | Maven Central publication | Planned |
-| Example JVM/Spring Boot FMU loader | Planned |
+| Example JVM/Spring Boot FMU loader | Added |
 
 ## Documentation Added By This Fork
 
 - [Native runtime build guide](docs/native-runtime-build.md)
 - [macOS universal runtime guide](docs/macos-universal-runtime.md)
+- [Linux ARM64 runtime guide](docs/linux-arm64-runtime.md)
 - [Roadmap](docs/roadmap.md)
 - [GitHub repository setup checklist](docs/github-repository-setup.md)
 - [Announcement and outreach text](docs/announcement.md)
