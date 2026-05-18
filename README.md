@@ -47,6 +47,8 @@ manually.
 - [Native runtime build guide](docs/native-runtime-build.md)
 - [macOS universal runtime guide](docs/macos-universal-runtime.md)
 - [Roadmap](docs/roadmap.md)
+- [GitHub repository setup checklist](docs/github-repository-setup.md)
+- [Announcement and outreach text](docs/announcement.md)
 
 ## Scripts Added By This Fork
 
@@ -56,6 +58,25 @@ manually.
 The scripts are intentionally small and explicit. They are meant to make the
 native runtime packaging process inspectable before it is automated further with
 CI.
+
+## Recommended GitHub Topics
+
+```text
+fmi
+fmu
+fmi4j
+fmi-standard
+fmi2
+co-simulation
+java
+kotlin
+jni
+digital-twin
+openmodelica
+macos-arm64
+apple-silicon
+multiplatform
+```
 
 ## Original FMI4j README
 
