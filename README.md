@@ -20,6 +20,7 @@ Initial maintenance focus:
 - macOS x86_64
 - macOS universal `darwin64` runtime
 - Windows x86_64
+- Windows ARM64
 - Linux x86_64
 - Linux ARM64
 
@@ -36,7 +37,8 @@ manually.
 | macOS ARM64 native runtime | Documented, script foundation added |
 | macOS x86_64 native runtime | Documented, script foundation added |
 | macOS universal runtime | Documented, script foundation added |
-| Windows x86_64 runtime | Planned |
+| Windows x86_64 runtime | Existing upstream support, to be repackaged |
+| Windows ARM64 runtime | Verified native runtime included |
 | Linux x86_64 runtime | Existing upstream support, to be repackaged |
 | Linux ARM64 runtime | Verified native runtime included |
 | Maven Central publication | Planned |
@@ -47,6 +49,7 @@ manually.
 - [Native runtime build guide](docs/native-runtime-build.md)
 - [macOS universal runtime guide](docs/macos-universal-runtime.md)
 - [Linux ARM64 runtime guide](docs/linux-arm64-runtime.md)
+- [Windows ARM64 runtime guide](docs/windows-arm64-runtime.md)
 - [Roadmap](docs/roadmap.md)
 - [GitHub repository setup checklist](docs/github-repository-setup.md)
 - [Announcement and outreach text](docs/announcement.md)
@@ -56,6 +59,7 @@ manually.
 - `scripts/build-macos-universal.sh`
 - `scripts/package-runtime-jar.sh`
 - `scripts/build-linux-aarch64.sh`
+- `scripts/build-windows-arm64.bat`
 
 The scripts are intentionally small and explicit. They are meant to make the
 native runtime packaging process inspectable before it is automated further with
@@ -80,6 +84,8 @@ apple-silicon
 multiplatform
 linux-arm64
 linux-aarch64
+windows-arm64
+windows-aarch64
 ```
 
 ## Original FMI4j README

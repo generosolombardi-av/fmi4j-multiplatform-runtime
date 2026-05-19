@@ -9,6 +9,7 @@ For example:
 - macOS ARM JDK needs an arm64 `fmi4j-import.dylib`.
 - macOS Intel or Rosetta JDK needs an x86_64 `fmi4j-import.dylib`.
 - Windows x86_64 JDK needs a `fmi4j-import.dll`.
+- Windows ARM64 JDK needs an ARM64 `fmi4j-import.dll`.
 - Linux x86_64 JDK needs a `libfmi4j-import.so`.
 - Linux ARM64 JDK needs an ARM aarch64 `libfmi4j-import.so`.
 
@@ -33,6 +34,7 @@ fmi-import/src/main/resources/native/fmi/
   linux64/libfmi4j-import.so
   linux-aarch64/libfmi4j-import.so
   win64/fmi4j-import.dll
+  win-arm64/fmi4j-import.dll
 ```
 
 The macOS `darwin64` file can be a universal binary containing both `arm64` and
@@ -86,4 +88,16 @@ Windows:
 
 ```powershell
 dumpbin /headers fmi4j-import.dll
+```
+
+Windows ARM64:
+
+```powershell
+dumpbin /headers fmi4j-import.dll | findstr machine
+```
+
+Expected architecture string:
+
+```text
+AA64 machine (ARM64)
 ```

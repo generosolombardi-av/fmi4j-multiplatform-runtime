@@ -66,6 +66,7 @@ object OsUtil {
                 isMac -> "darwin$platformBitness"
                 isLinux && isArm64 -> "linux-aarch64"
                 isLinux -> "linux$platformBitness"
+                isWindows && isArm64 -> "win-arm64"
                 isWindows -> "win$platformBitness"
                 else -> throw RuntimeException("Unsupported OS: $osName / $osArch")
             }
@@ -103,6 +104,7 @@ object OsUtil {
     val fmuBinaryFolderCandidates: List<String>
         get() = when {
             isMac -> listOf("darwin$platformBitness")
+            isWindows && isArm64 -> listOf("win-arm64", "win$platformBitness")
             isWindows -> listOf("win$platformBitness")
             isLinux && isArm64 -> listOf("aarch64-linux-gnu", "linux-aarch64", "linux$platformBitness")
             isLinux && isX86_64 -> listOf("x86_64-linux-gnu", "linux$platformBitness")
