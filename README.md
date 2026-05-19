@@ -38,7 +38,7 @@ manually.
 | macOS universal runtime | Documented, script foundation added |
 | Windows x86_64 runtime | Planned |
 | Linux x86_64 runtime | Existing upstream support, to be repackaged |
-| Linux ARM64 runtime | Loader support and build guide added; binary build pending |
+| Linux ARM64 runtime | Verified native runtime included |
 | Maven Central publication | Planned |
 | Example JVM/Spring Boot FMU loader | Added |
 
@@ -55,6 +55,7 @@ manually.
 
 - `scripts/build-macos-universal.sh`
 - `scripts/package-runtime-jar.sh`
+- `scripts/build-linux-aarch64.sh`
 
 The scripts are intentionally small and explicit. They are meant to make the
 native runtime packaging process inspectable before it is automated further with
@@ -77,6 +78,8 @@ openmodelica
 macos-arm64
 apple-silicon
 multiplatform
+linux-arm64
+linux-aarch64
 ```
 
 ## Original FMI4j README

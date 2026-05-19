@@ -38,11 +38,12 @@ The runtime loader preserves established folder names such as `darwin64`,
 - Documentation for verifying architecture slices with `lipo` and `file`.
 - Minimal JVM/Spring Boot example that loads an FMI 2.0 Co-Simulation FMU.
 - Linux ARM64 runtime folder mapping and FMU binary folder fallback support.
+- Verified Linux ARM64 native `libfmi4j-import.so` runtime added.
 
 ## Second Milestone
 
 - CI build matrix for macOS, Windows, and Linux.
-- Linux ARM64 build documentation and, if possible, CI coverage.
+- CI coverage for Linux ARM64 packaging and smoke tests.
 - Published release artifact.
 
 ## Non-Goals For The First Milestone

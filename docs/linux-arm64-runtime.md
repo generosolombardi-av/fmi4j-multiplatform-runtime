@@ -65,6 +65,18 @@ cp build/native/linux-aarch64/libfmi4j-import.so \
   fmi-import/src/main/resources/native/fmi/linux-aarch64/
 ```
 
+Verify the binary architecture:
+
+```bash
+file build/native/linux-aarch64/libfmi4j-import.so
+```
+
+The verified Linux ARM64 runtime included in this fork reports:
+
+```text
+ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked
+```
+
 Then build the JVM artifact:
 
 ```bash

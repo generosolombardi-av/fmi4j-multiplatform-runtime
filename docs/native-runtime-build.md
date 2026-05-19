@@ -10,6 +10,7 @@ For example:
 - macOS Intel or Rosetta JDK needs an x86_64 `fmi4j-import.dylib`.
 - Windows x86_64 JDK needs a `fmi4j-import.dll`.
 - Linux x86_64 JDK needs a `libfmi4j-import.so`.
+- Linux ARM64 JDK needs an ARM aarch64 `libfmi4j-import.so`.
 
 ## Source Files
 
@@ -72,6 +73,13 @@ Linux ARM64:
 
 ```bash
 scripts/build-linux-aarch64.sh
+file build/native/linux-aarch64/libfmi4j-import.so
+```
+
+Expected architecture string:
+
+```text
+ELF 64-bit LSB shared object, ARM aarch64
 ```
 
 Windows:
