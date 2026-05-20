@@ -10,7 +10,7 @@ manual local JAR patches.
 <dependency>
   <groupId>io.github.generosolombardi.fmi4j</groupId>
   <artifactId>fmi-import</artifactId>
-  <version>0.38.0-multiplatform.4</version>
+  <version>0.38.0-multiplatform.5</version>
 </dependency>
 ```
 
@@ -60,7 +60,7 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.generosolombardi.fmi4j:fmi-import:0.38.0-multiplatform.4"
+    implementation "io.github.generosolombardi.fmi4j:fmi-import:0.38.0-multiplatform.5"
 }
 ```
 
