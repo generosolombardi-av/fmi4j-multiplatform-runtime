@@ -27,8 +27,10 @@ Examples:
 ```text
 binaries/darwin64/<modelIdentifier>.dylib
 binaries/win64/<modelIdentifier>.dll
+binaries/win-arm64/<modelIdentifier>.dll
 binaries/linux64/<modelIdentifier>.so
 binaries/aarch64-linux-gnu/<modelIdentifier>.so
+binaries/linux-aarch64/<modelIdentifier>.so
 ```
 
 ## Run
@@ -59,9 +61,15 @@ curl -i -X POST "http://localhost:8080/fmi/step?size=1.0"
 
 ## Dependency Note
 
-Until this fork is published to Maven Central, install the runtime artifact into
-your local Maven repository and use the coordinates configured in `pom.xml`.
+This example uses the fork coordinates published through GitHub Packages:
+
+```text
+io.github.generosolombardi.fmi4j:fmi-import
+```
+
+GitHub Packages Maven repositories usually require credentials in
+`~/.m2/settings.xml`, even when the package is public. See
+`docs/github-packages.md` in the repository root.
 
 The example intentionally stays small so it can be used as a repeatable smoke
 test for every published runtime artifact.
-

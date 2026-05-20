@@ -10,7 +10,7 @@ wrapper {
     gradleVersion = '7.4'
 }
 
-group = "info.laht.fmi4j"
+group = "io.github.generosolombardi.fmi4j"
 version = rootProject.file("VERSION").readLines()[0]
 println("Building ${rootProject.name} v$version")
 

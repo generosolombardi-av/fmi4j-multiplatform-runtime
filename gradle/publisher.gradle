@@ -23,47 +23,51 @@ class PublishPlugin implements Plugin<Project>{
 
         def extension = project.extensions.create('pomDescription', PublishPluginExtension)
 
-        if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")) {
+        project.apply(plugin: MavenPublishPlugin)
 
-            project.apply(plugin: MavenPublishPlugin)
-            project.apply(plugin: SigningPlugin)
+        project.publishing {
+            publications {
+                mavenJava(MavenPublication) {
 
-            project.publishing {
-                publications {
-                    mavenJava(MavenPublication) {
+                    from project.components.java
+                    artifact sourcesJar(project)
+                    artifact javadocJar(project)
 
-                        from project.components.java
-                        artifact sourcesJar(project)
-                        artifact javadocJar(project)
+                    pom {
+                        name = project.archivesBaseName
+                        description = extension.description
+                        url = 'https://github.com/generosolombardi-av/fmi4j-multiplatform-runtime'
 
-                        pom {
-                            name = project.archivesBaseName
-                            description = extension.description
-                            url = 'https://github.com/ntnu-ihb/fmi4j'
+                        scm {
+                            url = 'https://github.com/generosolombardi-av/fmi4j-multiplatform-runtime'
+                            connection = 'scm:git:https://github.com/generosolombardi-av/fmi4j-multiplatform-runtime.git'
+                            developerConnection = 'scm:git:ssh://git@github.com:generosolombardi-av/fmi4j-multiplatform-runtime.git'
+                        }
 
-                            scm {
-                                url = 'https://github.com/ntnu-ihb/fmi4j/tree/master'
+                        licenses {
+                            license {
+                                name = 'The MIT License'
+                                url = 'https://opensource.org/licenses/mit-license.php'
                             }
+                        }
 
-                            licenses {
-                                license {
-                                    name = 'The MIT License'
-                                    url = 'https://opensource.org/licenses/mit-license.php'
-                                }
+                        developers {
+                            developer {
+                                id = 'laht'
+                                name = 'Lars Ivar Hatledal'
                             }
-
-                            developers {
-                                developer {
-                                    id = 'laht'
-                                    name = 'Lars Ivar Hatledal'
-                                    email = 'laht@ntnu.com'
-                                }
+                            developer {
+                                id = 'generosolombardi'
+                                name = 'Generoso Lombardi'
                             }
                         }
                     }
                 }
-                repositories {
+            }
+            repositories {
+                if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")) {
                     maven {
+                        name = "OSSRH"
                         def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
                         def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
                         url project.version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
@@ -73,12 +77,25 @@ class PublishPlugin implements Plugin<Project>{
                         }
                     }
                 }
-            }
 
+                if (project.hasProperty("publishToGitHubPackages")) {
+                    maven {
+                        name = "GitHubPackages"
+                        url = project.uri("https://maven.pkg.github.com/generosolombardi-av/fmi4j-multiplatform-runtime")
+                        credentials {
+                            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+                        }
+                    }
+                }
+            }
+        }
+
+        if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")) {
+            project.apply(plugin: SigningPlugin)
             project.signing {
                 sign project.publishing.publications.mavenJava
             }
-
         }
     }
 

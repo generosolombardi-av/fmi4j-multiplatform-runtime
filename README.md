@@ -50,6 +50,7 @@ manually.
 - [macOS universal runtime guide](docs/macos-universal-runtime.md)
 - [Linux ARM64 runtime guide](docs/linux-arm64-runtime.md)
 - [Windows ARM64 runtime guide](docs/windows-arm64-runtime.md)
+- [GitHub Packages publication guide](docs/github-packages.md)
 - [Roadmap](docs/roadmap.md)
 - [GitHub repository setup checklist](docs/github-repository-setup.md)
 - [Announcement and outreach text](docs/announcement.md)
