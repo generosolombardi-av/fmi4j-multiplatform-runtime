@@ -61,15 +61,14 @@ curl -i -X POST "http://localhost:8080/fmi/step?size=1.0"
 
 ## Dependency Note
 
-This example uses the fork coordinates published through GitHub Packages:
+This example uses the fork coordinates prepared for Maven Central:
 
 ```text
-io.github.generosolombardi.fmi4j:fmi-import
+io.github.generosolombardi-av.fmi4j:fmi-import
 ```
 
-GitHub Packages Maven repositories usually require credentials in
-`~/.m2/settings.xml`, even when the package is public. See
-`docs/github-packages.md` in the repository root.
+Maven Central publication does not require a custom repository entry in the
+consumer `pom.xml`. See `docs/maven-central.md` in the repository root.
 
 The example intentionally stays small so it can be used as a repeatable smoke
 test for every published runtime artifact.

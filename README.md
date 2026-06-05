@@ -41,7 +41,7 @@ manually.
 | Windows ARM64 runtime | Verified native runtime included |
 | Linux x86_64 runtime | Existing upstream support, to be repackaged |
 | Linux ARM64 runtime | Verified native runtime included |
-| Maven Central publication | Planned |
+| Maven Central publication | Configured for Central Portal publication |
 | Example JVM/Spring Boot FMU loader | Added |
 
 ## Documentation Added By This Fork
@@ -51,6 +51,7 @@ manually.
 - [Linux ARM64 runtime guide](docs/linux-arm64-runtime.md)
 - [Windows ARM64 runtime guide](docs/windows-arm64-runtime.md)
 - [GitHub Packages publication guide](docs/github-packages.md)
+- [Maven Central publication guide](docs/maven-central.md)
 - [Roadmap](docs/roadmap.md)
 - [GitHub repository setup checklist](docs/github-repository-setup.md)
 - [Announcement and outreach text](docs/announcement.md)

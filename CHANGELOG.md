@@ -1,5 +1,33 @@
 # Changelog
 
+## v0.38.0-multiplatform.6
+
+This release prepares the community FMI4j runtime for Maven Central publication
+under the verified Central namespace:
+
+```xml
+<dependency>
+  <groupId>io.github.generosolombardi-av.fmi4j</groupId>
+  <artifactId>fmi-import</artifactId>
+  <version>0.38.0-multiplatform.6</version>
+</dependency>
+```
+
+### Packaging Changes
+
+- Switched the fork publication group id to
+  `io.github.generosolombardi-av.fmi4j`, matching the verified Sonatype Central
+  namespace.
+- Added a GitHub Actions workflow for publishing signed artifacts to Maven
+  Central through the Sonatype Central Portal OSSRH Staging API.
+- Kept GitHub Packages publication support available as a secondary channel.
+
+### Documentation
+
+- Added Maven Central consumption and publication documentation.
+- Documented the required GitHub repository secrets for Central Portal and GPG
+  signing.
+
 ## v0.38.0-multiplatform.5
 
 This release is the first cleaned-up community runtime release intended for

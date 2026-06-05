@@ -22,6 +22,8 @@ class PublishPlugin implements Plugin<Project>{
     void apply(Project project) {
 
         def extension = project.extensions.create('pomDescription', PublishPluginExtension)
+        def publishToMavenCentral = project.hasProperty("publishToMavenCentral")
+        def publishToLegacyOssrh = project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")
 
         project.apply(plugin: MavenPublishPlugin)
 
@@ -59,13 +61,25 @@ class PublishPlugin implements Plugin<Project>{
                             developer {
                                 id = 'generosolombardi'
                                 name = 'Generoso Lombardi'
+                                email = 'generoso.lombardi@maregroup.it'
                             }
                         }
                     }
                 }
             }
             repositories {
-                if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")) {
+                if (publishToMavenCentral) {
+                    maven {
+                        name = "CentralPortal"
+                        url = project.uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
+                        credentials {
+                            username = project.findProperty("centralUsername") ?: System.getenv("CENTRAL_USERNAME")
+                            password = project.findProperty("centralPassword") ?: System.getenv("CENTRAL_PASSWORD")
+                        }
+                    }
+                }
+
+                if (publishToLegacyOssrh) {
                     maven {
                         name = "OSSRH"
                         def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
@@ -91,9 +105,14 @@ class PublishPlugin implements Plugin<Project>{
             }
         }
 
-        if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")) {
+        if (publishToMavenCentral || publishToLegacyOssrh) {
             project.apply(plugin: SigningPlugin)
             project.signing {
+                def signingKey = project.findProperty("signingKey") ?: System.getenv("SIGNING_KEY")
+                def signingPassword = project.findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
+                if (signingKey && signingPassword) {
+                    useInMemoryPgpKeys(signingKey, signingPassword)
+                }
                 sign project.publishing.publications.mavenJava
             }
         }

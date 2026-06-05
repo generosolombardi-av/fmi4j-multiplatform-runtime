@@ -1,0 +1,43 @@
+name: Publish Maven Central
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Publish JVM artifacts to Central Portal staging repository
+        env:
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: |
+          ./gradlew clean :fmi-md:publish :fmi-import:publish \
+            -PskipBuildNative=true \
+            -PpublishToMavenCentral=true
+
+      - name: Publish staged deployment on Maven Central
+        env:
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+        run: |
+          AUTH_TOKEN="$(printf '%s:%s' "$CENTRAL_USERNAME" "$CENTRAL_PASSWORD" | base64 | tr -d '\n')"
+          curl --fail-with-body \
+            -X POST \
+            -H "Authorization: Bearer $AUTH_TOKEN" \
+            "https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/io.github.generosolombardi-av?publishing_type=automatic"
